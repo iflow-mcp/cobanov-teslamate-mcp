@@ -9,7 +9,7 @@ import psycopg
 from psycopg.rows import dict_row
 from psycopg_pool import AsyncConnectionPool
 
-from .config import Config
+from config import Config
 
 
 class DatabaseManager:

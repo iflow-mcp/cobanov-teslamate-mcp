@@ -5,9 +5,9 @@ from typing import Any, Dict, List
 
 from mcp.server.fastmcp import FastMCP
 
-from src.config import Config
-from src.database import DatabaseManager
-from src.tools import TOOL_DEFINITIONS
+from config import Config
+from database import DatabaseManager
+from tools import TOOL_DEFINITIONS
 
 # Initialize configuration and database manager
 config = Config.from_env()
