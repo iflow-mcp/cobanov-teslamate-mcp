@@ -1,5 +1,5 @@
 [project]
-name = "teslamate-mcp"
+name = "iflow-mcp_cobanov-teslamate-mcp"
 version = "0.2.0"
 description = "A Model Context Protocol (MCP) server that provides access to your TeslaMate database, allowing AI assistants to query Tesla vehicle data and analytics."
 readme = "README.md"
@@ -21,3 +21,6 @@ dependencies = [
     "starlette>=0.36.0",
     "fastmcp>=2.10.1",
 ]
+
+[project.scripts]
+teslamate-mcp = "main:main"

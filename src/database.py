@@ -1,6 +1,7 @@
 """Database operations and connection management"""
 
 import json
+import os
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -17,6 +18,7 @@ class DatabaseManager:
     def __init__(self, config: Config):
         self.connection_string = config.database_url
         self.queries_dir = Path(config.queries_dir)
+        self.demo_mode = os.getenv("DEMO_MODE", "false").lower() == "true"
 
     def read_sql_file(self, file_path: str) -> str:
         """Read SQL query from file"""
@@ -26,16 +28,35 @@ class DatabaseManager:
 
     def execute_query_sync(self, sql_file_path: str) -> List[Dict[str, Any]]:
         """Execute SQL query synchronously"""
+        if self.demo_mode:
+            # Return mock data for demo/testing purposes
+            return self._get_mock_data(sql_file_path)
+
         sql_query = self.read_sql_file(sql_file_path)
         with psycopg.connect(self.connection_string, row_factory=dict_row) as conn:
             with conn.cursor() as cur:
                 cur.execute(sql_query)
                 return cur.fetchall()
 
+    def _get_mock_data(self, sql_file_path: str) -> List[Dict[str, Any]]:
+        """Generate mock data for testing without database"""
+        # Return a simple mock response
+        return [
+            {
+                "id": 1,
+                "name": "Demo Data",
+                "description": "This is mock data for testing purposes",
+                "status": "active"
+            }
+        ]
+
     async def execute_query_async(
         self, sql_file_path: str, pool: AsyncConnectionPool
     ) -> List[Dict[str, Any]]:
         """Execute SQL query asynchronously"""
+        if self.demo_mode:
+            return self._get_mock_data(sql_file_path)
+
         sql_query = self.read_sql_file(sql_file_path)
         async with pool.connection() as conn:
             async with conn.cursor() as cur:
@@ -46,6 +67,9 @@ class DatabaseManager:
         self, query: str, pool: AsyncConnectionPool
     ) -> List[Dict[str, Any]]:
         """Execute a custom SQL query asynchronously"""
+        if self.demo_mode:
+            return self._get_mock_data("custom")
+
         async with pool.connection() as conn:
             async with conn.cursor() as cur:
                 await cur.execute(query)

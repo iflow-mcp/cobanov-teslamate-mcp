@@ -38,6 +38,11 @@ for tool_def in TOOL_DEFINITIONS:
     mcp.tool()(tool_func)
 
 
-if __name__ == "__main__":
+def main():
+    """Main entry point for the MCP server"""
     logger.info("Starting TeslaMate MCP server with STDIO transport")
     mcp.run(transport="stdio")
+
+
+if __name__ == "__main__":
+    main()
