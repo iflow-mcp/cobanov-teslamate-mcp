@@ -1,6 +1,6 @@
 [project]
 name = "iflow-mcp_cobanov-teslamate-mcp"
-version = "0.2.1"
+version = "0.2.2"
 description = "A Model Context Protocol (MCP) server that provides access to your TeslaMate database, allowing AI assistants to query Tesla vehicle data and analytics."
 readme = "README.md"
 license = {text = "MIT"}
